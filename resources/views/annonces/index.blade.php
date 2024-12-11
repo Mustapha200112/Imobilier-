@@ -6,11 +6,13 @@
 
 <style>
   /* Ajuster la taille des images du slider principal */
+
   .carousel-item2 img {
       height: 30rem;
       object-fit: cover;
       
   }
+  
   .Serves img {
       height: 8rem;
       object-fit: fill;
@@ -92,9 +94,9 @@
       <div class="carousel-inner">
           @foreach($sliderAnnonces as $index => $annonce)
           <div class="slidT carousel-item {{ $index == 0 ? 'active' : '' }}">
-            <a href="{{route("annonces.show",$annonce->id)}}" >
+            <a href="{{route("annonces.show", $annonce->id)}}" >
 
-              <img class="d-block w-100" src="{{  $annonce->image }}" alt="{{ $annonce->title }}">   
+                <img class="d-block w-100" src="{{ asset('storage/images/' . basename($annonce->image)) }}" alt="{{ $annonce->title }}">
             </a>
               <div class="carousel-caption d-none d-md-block">
                   <h5>{{ $annonce->title }}</h5>
@@ -119,17 +121,18 @@
 
 <!-- Product Slider -->
     <div class="container my-5">
-        @if ($annonces->count() > 0)
+        @if ($annoncesProductslider->count() > 0)
             <h4 class="text-center mb-5 text-primary">Nos Servise</h4>
         @endif
         <div id="productCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                @foreach ($annonces->chunk(5) as $index => $productChunk)
+                @foreach ($annoncesProductslider->chunk(5) as $index => $productChunk)
                     <div class="carousel-item @if($index == 0) active @endif">
                         <div class="d-flex flex-wrap justify-content-between">
                             @foreach ($productChunk as $product)
                                 <div class="col-12 col-sm-6 col-md-2 mb-5 Serves">
-                                    <img src="{{ $product->image }}" class="d-block w-100" alt="{{ $product->title }}">
+
+                                    <img src="{{ asset('storage/images/' . basename($product->image)) }}" class="d-block w-100" alt="{{ $product->title }}">
                                     <div class="product-info">
                                         <h5 class="text-black">{{ $product->title }}</h5>
                                         <p class="text-black">{{ $product->category }}</p>
@@ -176,12 +179,15 @@
                         <div id="carousel-{{ $annonce->id }}" class="carousel slide " data-ride="carousel" data-interval="false">
                             <div class="carousel-inner carousel-inner1 carousel-inner12">
                                 <div class="carousel-item active carousel-itemsiez  carousel-itemsiez2 carousel-item2">
-                                    <img class="d-block w-100" src="{{ $annonce->image }}" alt="{{ $annonce->title }}">
+                                    
+                                    <img class="d-block w-100" src="{{ asset('storage/images/' . basename($annonce->image)) }}" alt="{{ $annonce->title }}">
                                 </div>
                                 @foreach (range(1, 6) as $i)
                                     @if($annonce->{'image'.$i})
                                     <div class="carousel-item carousel-itemsiez carousel-itemsiez2 carousel-item2">
-                                        <img class="d-block w-100" src="{{ $annonce->{'image'.$i} }}" alt="{{ $annonce->title }}">
+                                        <img class="d-block w-100" src="{{ asset('storage/images/' . basename($annonce->image)) }}" alt="{{ $annonce->title }}">
+
+                                        <img class="d-block w-100" src="{{asset('storage/images/' . basename($annonce->{'image'.$i})) }}" alt="{{ $annonce->title }}">
                                     </div>
                                     @endif
                                 @endforeach

@@ -37,4 +37,4 @@ use App\Http\Controllers\UserController;
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('profile.edit');
 Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
-Route::put('/profile/delet', [UserController::class, 'deleteAccount'])->name('profile.delet');
+Route::delete('/profile/delet', [UserController::class, 'deleteAccount'])->name('profile.delet');

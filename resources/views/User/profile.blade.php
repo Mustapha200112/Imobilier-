@@ -90,7 +90,8 @@
 
                             <div class="col-md-6">
                                 @if ($user->imageProfil)
-                                    <img src="{{ $user->imageProfil }}" alt="Profile Picture" class="imageProfil">
+                                
+                                    <img src="{{asset('storage/imagesProfils/'. basename($user->imageProfil)) }}" alt="Profile Picture" class="imageProfil">
                                 @else
                                     <p>No profile picture uploaded</p>
                                 @endif

@@ -92,7 +92,7 @@
                     @for ($i = 1; $i <= 6; $i++)
                         @if (!empty($annonce["image$i"]))
                             <div class="carousel-item {{ $i === 1 ? 'active' : '' }}">
-                                <img src="{{ $annonce["image$i"] }}" class="d-block w-100" alt="Image {{ $i }}">
+                                <img src="{{asset('storage/images/'. basename($annonce["image$i"])) }}" class="d-block w-100" alt="Image {{ $i }}">
                             </div>
                         @endif
                     @endfor
@@ -137,7 +137,8 @@
     <div class="row">
       <div class="col-md-4">
           <div class="seller-card text-center">
-              <img src={{$annonce->user->imageProfil}} alt="Vendeur" class="seller-image">
+            
+              <img src="{{asset('storage/imagesProfils/'. basename($annonce->user->imageProfil)) }}" alt="Vendeur" class="seller-image">
               <div class="seller-info">
                   <span class="list-group-item">{{ $annonce->user->name }}</span>
                   

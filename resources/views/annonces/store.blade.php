@@ -142,34 +142,34 @@
         <div class="row">
                 <div class="form-group col-4">
                   <label for="image1">Image 1:</label>
-                  <input type="file" class="form-control-file" id="image1" name="image1" onchange="previewImage(this, 'preview-image1')" required>
+                  <input type="file" class="form-control-file" id="image1" name="image1" onchange="previewImage(this, 'preview-image1')" >
                   <img id="preview-image1" src="#" alt="Image preview1" width="200" style="display: none">
               </div>
               <div class="form-group col-4">
                   <label for="image2">Image 2:</label>
-                  <input type="file" class="form-control-file" id="image2" name="image2" onchange="previewImage(this, 'preview-image2')" required>
+                  <input type="file" class="form-control-file" id="image2" name="image2" onchange="previewImage(this, 'preview-image2')" >
                   <img id="preview-image2" src="#" alt="Image preview2" width="200" style="display: none">
               </div>
               <div class="form-group col-4">
                   <label for="image3">Image 3:</label>
-                  <input type="file" class="form-control-file" id="image3" name="image3" onchange="previewImage(this, 'preview-image3')" required>
+                  <input type="file" class="form-control-file" id="image3" name="image3" onchange="previewImage(this, 'preview-image3')" >
                   <img id="preview-image3" src="#" alt="Image preview3" width="200" style="display: none">
               </div>
         </div>
         <div class="row">
               <div class="form-group col-4">
                 <label for="image4">Image 4:</label>
-                <input type="file" class="form-control-file" id="image4" name="image4" onchange="previewImage(this, 'preview-image4')" required>
+                <input type="file" class="form-control-file" id="image4" name="image4" onchange="previewImage(this, 'preview-image4')" >
                 <img id="preview-image4" src="#" alt="Image preview4" width="200" style="display: none">   
             </div>
             <div class="form-group col-4">
                 <label for="image5">Image 5:</label>
-                <input type="file" class="form-control-file" id="image5" name="image5" onchange="previewImage(this, 'preview-image5')" required>
+                <input type="file" class="form-control-file" id="image5" name="image5" onchange="previewImage(this, 'preview-image5')" >
                 <img id="preview-image5" src="#" alt="Image preview5" width="200" style="display: none">
             </div>
             <div class="form-group col-4">
                 <label for="image6">Image 6:</label>
-                <input type="file" class="form-control-file" id="image6" name="image6" onchange="previewImage(this, 'preview-image6')" required>
+                <input type="file" class="form-control-file" id="image6" name="image6" onchange="previewImage(this, 'preview-image6')" >
                 <img id="preview-image6" src="#" alt="Image preview6" width="200" style="display: none">
             </div>
         </div>

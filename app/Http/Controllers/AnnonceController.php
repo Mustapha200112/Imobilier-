@@ -15,10 +15,12 @@ class AnnonceController extends Controller
     public function index()
     {
         //
+        $annoncesProductslider = Annonces::with('user')->orderBy('created_at', 'desc')->get();
         $sliderAnnonces = Annonces::with('user')->orderBy('created_at', 'desc')->take(3)->get();
         $annonces = Annonces::with('user')->orderBy('created_at', 'desc')->skip(3)->paginate(10);
-        return view('annonces.index', compact('sliderAnnonces', 'annonces'));
+        return view('annonces.index', compact('sliderAnnonces', 'annonces','annoncesProductslider'));
     }
+
     public function afficheUserAnnonce()
     {
         //
@@ -40,14 +42,13 @@ class AnnonceController extends Controller
     {
         //
         return view("annonces.store");
-
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {        
+    {
         // Valider les données du formulaire
         $validatedData = $request->validate([
             'title' => 'required|max:255',
@@ -64,10 +65,9 @@ class AnnonceController extends Controller
             'posX' => 'required',
             'posY' => 'required',
         ]);
-        
 
-        // Enregistrer l'image 1
-        $imagePath = $request->file('image')->store('images');
+        // Enregistrer l'image principale
+        $imagePath = $request->file('image')->store('images', 'public'); // Stocker dans public/images
 
         // Récupérer l'ID de l'utilisateur actuellement authentifié
         $userId = Auth::id();
@@ -78,28 +78,30 @@ class AnnonceController extends Controller
         $annonce->description = $validatedData['description'];
         $annonce->price = $validatedData['price'];
         $annonce->category = $validatedData['category'];
-        $annonce->image = $imagePath;
+        $annonce->image = $imagePath; // Lien de stockage relatif dans 'public/images'
         $annonce->posX = $validatedData['posX'];
         $annonce->posY = $validatedData['posY'];
         $annonce->users_id = $userId; // Enregistrement de l'ID de l'utilisateur
-        // Ajoutez d'autres attributs d'annonce si nécessaire
 
-        // Enregistrer les autres images s'il y en a
-        $annonce->image1 = $request->file('image1') ? $request->file('image1')->store('images') : null;
-        $annonce->image2 = $request->file('image2') ? $request->file('image2')->store('images') : null;
-        $annonce->image3 = $request->file('image3') ? $request->file('image3')->store('images') : null;
-        $annonce->image4 = $request->file('image4') ? $request->file('image4')->store('images') : null;
-        $annonce->image5 = $request->file('image5') ? $request->file('image5')->store('images') : null;
-        $annonce->image6 = $request->file('image6') ? $request->file('image6')->store('images') : null;
+        // Enregistrer les autres images si elles existent
+        $annonce->image1 = $request->file('image1') ? $request->file('image1')->store('images', 'public') : null;
+        $annonce->image2 = $request->file('image2') ? $request->file('image2')->store('images', 'public') : null;
+        $annonce->image3 = $request->file('image3') ? $request->file('image3')->store('images', 'public') : null;
+        $annonce->image4 = $request->file('image4') ? $request->file('image4')->store('images', 'public') : null;
+        $annonce->image5 = $request->file('image5') ? $request->file('image5')->store('images', 'public') : null;
+        $annonce->image6 = $request->file('image6') ? $request->file('image6')->store('images', 'public') : null;
 
-        
-        // Enaregistrer l'annonce dans la base de données
+        // Enregistrer l'annonce dans la base de données
         $annonce->save();
 
-        // Rediriger l'utilisateur vers une autre page après avoir enregistré l'annonce
+        // Rediriger vers une autre page après avoir enregistré l'annonce
+        $annoncesProductslider = Annonces::with('user')->orderBy('created_at', 'desc')->get();
+
         $sliderAnnonces = Annonces::with('user')->orderBy('created_at', 'desc')->take(3)->get();
         $annonces = Annonces::with('user')->orderBy('created_at', 'desc')->skip(3)->paginate(10);
-        return view('annonces.index', compact('sliderAnnonces', 'annonces'));    }
+        return view('annonces.index', compact('sliderAnnonces', 'annonces','annoncesProductslider'));
+    }
+
     /**
      * Display the specified resource.
      */
@@ -111,10 +113,11 @@ class AnnonceController extends Controller
     }
 
     public function edit(string $id)
-      {
+    {
         $annonce = Annonces::findOrFail($id);
         return view('annonces.edit', compact('annonce'));
-      }
+    }
+
     public function update(Request $request, string $id)
     {
         $annonce = Annonces::findOrFail($id);
@@ -146,25 +149,27 @@ class AnnonceController extends Controller
 
         // Si une nouvelle image principale est téléchargée, la remplacer
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images');
+            $imagePath = $request->file('image')->store('images', 'public');
             $annonce->image = $imagePath;
         }
 
         // Mettre à jour les autres images si elles sont fournies
-        $annonce->image1 = $request->file('image1') ? $request->file('image1')->store('images') : $annonce->image1;
-        $annonce->image2 = $request->file('image2') ? $request->file('image2')->store('images') : $annonce->image2;
-        $annonce->image3 = $request->file('image3') ? $request->file('image3')->store('images') : $annonce->image3;
-        $annonce->image4 = $request->file('image4') ? $request->file('image4')->store('images') : $annonce->image4;
-        $annonce->image5 = $request->file('image5') ? $request->file('image5')->store('images') : $annonce->image5;
-        $annonce->image6 = $request->file('image6') ? $request->file('image6')->store('images') : $annonce->image6;
+        $annonce->image1 = $request->file('image1') ? $request->file('image1')->store('images', 'public') : $annonce->image1;
+        $annonce->image2 = $request->file('image2') ? $request->file('image2')->store('images', 'public') : $annonce->image2;
+        $annonce->image3 = $request->file('image3') ? $request->file('image3')->store('images', 'public') : $annonce->image3;
+        $annonce->image4 = $request->file('image4') ? $request->file('image4')->store('images', 'public') : $annonce->image4;
+        $annonce->image5 = $request->file('image5') ? $request->file('image5')->store('images', 'public') : $annonce->image5;
+        $annonce->image6 = $request->file('image6') ? $request->file('image6')->store('images', 'public') : $annonce->image6;
 
         // Sauvegarder les modifications
         $annonce->save();
+
         // Rediriger l'utilisateur vers une autre page après avoir enregistré l'annonce
+        $annoncesProductslider = Annonces::with('user')->orderBy('created_at', 'desc')->get();
+
         $sliderAnnonces = Annonces::with('user')->orderBy('created_at', 'desc')->take(3)->get();
         $annonces = Annonces::with('user')->orderBy('created_at', 'desc')->skip(3)->paginate(10);
-        return view('annonces.index', compact('sliderAnnonces', 'annonces'));    
-
+        return view('annonces.index', compact('sliderAnnonces', 'annonces','annoncesProductslider'));
     }
 
     /**
@@ -172,12 +177,13 @@ class AnnonceController extends Controller
      */
     public function destroy(string $id)
     {
+        //
         $annonce = Annonces::findOrFail($id);
         $annonce->delete();
 
-        // Rediriger l'utilisateur vers une autre page après avoir enregistré l'annonce
-        $sliderAnnonces = Annonces::with('user')->orderBy('created_at', 'desc')->take(3)->get();
-        $annonces = Annonces::with('user')->orderBy('created_at', 'desc')->skip(3)->paginate(10);
-        return view('annonces.index', compact('sliderAnnonces', 'annonces'));    
+        // Redirection après la suppression
+        $annoncesProductslider = Annonces::with('user')->orderBy('created_at', 'desc')->get();
+
+        return redirect()->route('home');
     }
 }

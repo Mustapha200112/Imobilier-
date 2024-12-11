@@ -7,13 +7,14 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
     /*
-    |--------------------------------------------------------------------------
+    |---------------------------------------------------------------------------
     | Register Controller
-    |--------------------------------------------------------------------------
+    |---------------------------------------------------------------------------
     |
     | This controller handles the registration of new users as well as their
     | validation and creation. By default this controller uses a trait to
@@ -48,19 +49,16 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-      return Validator::make($data, [
-          'name' => ['required', 'string', 'max:255'],
-          'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-          'password' => ['required', 'string', 'min:8', 'confirmed'],
-          'phone' => ['required', 'string', 'max:20'],
-          'city' => ['required', 'string', 'max:255'],
-          'address' => ['required', 'string', 'max:255'],
-          'imageProfil' => 'image|mimes:jpeg,png,jpg,gif',
-
-      ]);
-
-  }
-  
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'string', 'max:20'],
+            'city' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'imageProfil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
+        ]);
+    }
 
     /**
      * Create a new user instance after a valid registration.
@@ -70,12 +68,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // Vérifier si l'image est présente et valide
         if (array_key_exists('imageProfil', $data) && $data['imageProfil']->isValid()) {
-            $imagePath = $data['imageProfil']->store('imagesProfils');
+            // Stocker l'image dans le dossier public/imagesProfils
+            $imagePath = $data['imageProfil']->store('imagesProfils', 'public');
         } else {
-            $imagePath = null;
+            $imagePath = null; // Si aucune image n'est téléchargée
         }
 
+        // Créer l'utilisateur avec les données de l'inscription
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -83,7 +84,7 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'city' => $data['city'],
             'address' => $data['address'],
-            'imageProfil' => $imagePath,
+            'imageProfil' => $imagePath, // Enregistrer le chemin de l'image
         ]);
     }
 }

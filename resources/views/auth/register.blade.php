@@ -1,9 +1,9 @@
 @extends("welcome")
-@section("title","Register")
+@section("title", "Register")
 <style>
-  /* Login form styles */
+  /* Global Styles */
   .login-container {
-      max-width: 60%;
+      max-width: 500px;
       margin: auto;
       background-color: #f9f9f9;
       padding: 40px;
@@ -21,6 +21,7 @@
   .form-control {
       border-radius: 20px;
       padding: 15px;
+      font-size: 16px;
   }
 
   .btn-primary {
@@ -30,6 +31,7 @@
       font-weight: bold;
       background-color: #007bff;
       border: none;
+      width: 100%;
   }
 
   .btn-primary:hover {
@@ -45,30 +47,51 @@
   label {
       font-weight: bold;
   }
+
+  /* Style for file input */
+  .input-file-container {
+      position: relative;
+      margin-bottom: 20px;
+  }
+
   input[type="file"] {
-      height: 60% ;
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 16px;
+      display: none;
   }
-  input[type="file"]::-webkit-file-upload-button {
+
+  .file-label {
       background-color: #007bff;
       color: #fff;
-      text-align: center;
-      border: none;
-      text-size-adjust:initial ;
+      padding: 10px 20px;
       border-radius: 5px;
-      padding:auto;
       cursor: pointer;
+      text-align: center;
+      font-size: 16px;
+      width: 100%;
+      display: inline-block;
   }
 
-  input[type="file"]::-webkit-file-upload-button:hover {
+  .file-label:hover {
       background-color: #0056b3;
   }
-</style>
 
+  .image-preview {
+      margin-top: 15px;
+      text-align: center;
+  }
+
+  .image-preview img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border: 3px solid #007bff;
+  }
+</style>
 
 @section('content')
 <div class="container login-container">
@@ -124,11 +147,17 @@
                     @enderror
                 </div>
 
-                <div class="col-md-12">
-                    <label for="imageProfil" class="form-label" >{{ __('Profile Image') }}</label>
+                <!-- Image input and preview -->
+                <div class="col-md-12 input-file-container">
+                    <label for="imageProfil" class="form-label">{{ __('Profile Image') }}</label>
                     <input id="imageProfil" type="file" onchange="previewImage(this, 'imageShow')" class="form-control @error('imageProfil') is-invalid @enderror" name="imageProfil" value="{{ old('imageProfil') }}" required>
+                    <label for="imageProfil" class="file-label">{{ __('Choose Image') }}</label>
+
                     <!-- Affichage de l'image prévisualisée -->
-                    <img src="#" style="display: none" id="imageShow" alt="Profile Image" width="200">
+                    <div class="image-preview">
+                        <img id="imageShow" src="#" style="display: none" alt="Profile Image">
+                    </div>
+
                     @error('imageProfil')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -148,20 +177,22 @@
 
                 <div class="col-md-12">
                     <label for="address" class="form-label">{{ __('Address') }}</label>
-<input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required>
-@error('address')
-<span class="invalid-feedback" role="alert">
-<strong>{{ $message }}</strong>
-</span>
-@enderror
+                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required>
+                    @error('address')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">{{ __('Register') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-<div class="col-md-12">
-  <button type="submit" class="btn btn-primary">{{ __('Register') }}</button>
-</div>
-</form>
-</div>
-</div>
-</div>
+
 <script>
     function previewImage(input, imgId) {
         var preview = document.getElementById(imgId);

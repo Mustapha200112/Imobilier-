@@ -143,18 +143,19 @@
         @if ($annonce->image !==null)
         <div class="form-group col-4">
             <label for="image">Image Principale:</label>
-            <input type="file" class="form-control-file" id="image" name="image" onchange="previewImage(this, 'imageShow')">
+            <input type="file" class="form-control-file" id="image" name="image" onchange="previewImage(this, 'imageShow')" required>
             <!-- Affichage de l'image actuelle -->
-            <img src="{{ asset($annonce->image) }}" id="imageShow" alt="Image principale" width="200">
+            <img  id="imageShow" src="{{ asset('storage/images/' . basename($annonce->image)) }}" width="200" alt="{{ $annonce->title }}">
+
         </div>
         @endif
         <div class="row">
           @if ($annonce->image1 !==null)
           <div class="form-group col-4">
               <label for="image1">Image 1:</label>
-              <input type="file" class="form-control-file" id="image1" name="image1" onchange="previewImage(this, 'imageShow1')">
+              <input type="file" class="form-control-file" id="image1" name="image1" onchange="previewImage(this, 'imageShow1')" >
               <!-- Affichage de l'image actuelle -->
-              <img src="{{ asset($annonce->image1) }}" id="imageShow1" alt="Image 1" width="200">
+              <img src="{{ asset('storage/images/' . basename($annonce->image1)) }}" id="imageShow1" alt="Image 1" width="200">
           </div>
           @endif
           @if ($annonce->image2 !==null)
@@ -162,7 +163,7 @@
               <label for="image2">Image 2:</label>
               <input type="file" class="form-control-file" id="image2" name="image2" onchange="previewImage(this, 'imageShow2')">
               <!-- Affichage de l'image actuelle -->
-              <img src="{{ asset($annonce->image2) }}" id="imageShow2" alt="Image 2" width="200">
+              <img src="{{ asset('storage/images/' . basename($annonce->image2)) }}" id="imageShow2" alt="Image 2" width="200">
           </div>
           @endif
           @if ($annonce->image3 !==null)
@@ -170,7 +171,7 @@
               <label for="image3">Image 3:</label>
               <input type="file" class="form-control-file" id="image3" name="image3" onchange="previewImage(this, 'imageShow3')">
               <!-- Affichage de l'image actuelle -->
-              <img src="{{ asset($annonce->image3) }}" id="imageShow3" alt="Image 3" width="200">
+              <img src="{{ asset('storage/images/' . basename($annonce->image3)) }}" id="imageShow3" alt="Image 3" width="200">
           </div>
           @endif
         </div>
@@ -180,7 +181,7 @@
             <label for="image4">Image 4:</label>
             <input type="file" class="form-control-file" id="image4" name="image4" onchange="previewImage(this, 'imageShow4')">
             <!-- Affichage de l'image actuelle -->
-            <img src="{{ asset($annonce->image4) }}" id="imageShow4" alt="Image 4" width="200">
+            <img src="{{ asset('storage/images/' . basename($annonce->image4)) }}" id="imageShow4" alt="Image 4" width="200">
         </div>
         @endif
         @if ($annonce->image5 !==null)
@@ -188,7 +189,7 @@
             <label for="image5">Image 5:</label>
             <input type="file" class="form-control-file" id="image5" name="image5" onchange="previewImage(this, 'imageShow5')">
             <!-- Affichage de l'image actuelle -->
-            <img src="{{ asset($annonce->image5) }}" id="imageShow5" alt="Image 5" width="200">
+            <img src="{{ asset('storage/images/' . basename($annonce->image5)) }}" id="imageShow5" alt="Image 5" width="200">
         </div>
         @endif
         @if ($annonce->image6 !==null)
@@ -196,7 +197,7 @@
             <label for="image6">Image 6:</label>
             <input type="file" class="form-control-file" id="image6" name="image6" onchange="previewImage(this, 'imageShow6')">
             <!-- Affichage de l'image actuelle -->
-            <img src="{{ asset($annonce->image6) }}" id="imageShow6" alt="Image 6" width="200">
+            <img src="{{ asset('storage/images/' . basename($annonce->image6)) }}" id="imageShow6" alt="Image 6" width="200">
         </div>
         @endif
       </div>
